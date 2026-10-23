@@ -1,0 +1,38 @@
+# env & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.my-info
+
+# data (volume host) - jangan pernah di-commit
+data/
+!data/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# node
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-error.log*
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# misc
+*.log

@@ -1,0 +1,13 @@
+{
+  "name": "dagang-ui-tests",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Uji UI end-to-end (Playwright) untuk alur kasir Dagang POS",
+  "scripts": {
+    "test": "node ui_test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
+  }
+}

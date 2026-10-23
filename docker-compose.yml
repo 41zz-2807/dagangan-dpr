@@ -1,0 +1,88 @@
+# ==============================================================================
+# Dagang POS - satu toko, beberapa kasir
+#   dagang-apps : Flask (API + static React build) + gunicorn  -> 0.0.0.0:8787
+#   dagang-db   : PostgreSQL 15 (container terpisah, TANPA port ke host)
+#
+# Hanya SATU bind mount di host: ./data  (postgres / uploads / logs / backups)
+# ==============================================================================
+name: dagang
+
+services:
+  dagang-db:
+    container_name: dagang-db
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Jakarta}
+      PGTZ: ${TZ:-Asia/Jakarta}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER wajib diisi di .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD wajib diisi di .env}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB wajib diisi di .env}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - dagang-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  dagang-apps:
+    container_name: dagang-apps
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      dagang-db:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ:-Asia/Jakarta}
+      # host db = "dagang-db" (bukan localhost, bukan IP hardcode)
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@dagang-db:5432/${POSTGRES_DB}
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY wajib diisi di .env}
+      OWNER_USERNAME: ${OWNER_USERNAME:-owner}
+      OWNER_PASSWORD: ${OWNER_PASSWORD:?OWNER_PASSWORD wajib diisi di .env}
+      BASE_URL: ${BASE_URL:-http://localhost:8787}
+      COOKIE_SECURE: ${COOKIE_SECURE:-auto}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-3}
+      GUNICORN_THREADS: ${GUNICORN_THREADS:-4}
+      LOGIN_MAX_ATTEMPTS: ${LOGIN_MAX_ATTEMPTS:-5}
+      LOGIN_LOCKOUT_MINUTES: ${LOGIN_LOCKOUT_MINUTES:-10}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-8}
+      STORE_NAME: ${STORE_NAME:-Warung DPR}
+      STORE_ADDRESS: ${STORE_ADDRESS:-}
+      STORE_PHONE: ${STORE_PHONE:-}
+      STORE_FOOTER: ${STORE_FOOTER:-Terima kasih telah berbelanja!}
+      SMTP_ENABLED: ${SMTP_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      UPLOAD_FOLDER: /data/uploads
+      LOG_FOLDER: /data/logs
+      BACKUP_FOLDER: /data/backups
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./data/uploads:/data/uploads
+      - ./data/logs:/data/logs
+      - ./data/backups:/data/backups
+    networks:
+      - dagang-net
+      - cloudflared
+
+networks:
+  # jaringan internal: hanya antar container, tanpa egress, tanpa published port
+  dagang-net:
+    name: dagang-net
+    internal: true
+  # jaringan eksternal milik container cloudflared yang sudah ada
+  # nama sebenarnya diambil dari env CLOUDFLARED_NETWORK
+  cloudflared:
+    external: true
+    name: ${CLOUDFLARED_NETWORK:-war-nt-web_default}

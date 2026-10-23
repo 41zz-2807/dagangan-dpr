@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-slate-100 text-slate-900 antialiased;
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* target sentuh minimal 44px */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Animasi splash "pembayaran diterima" (1 detik) */
+@keyframes splash-overlay-fade {
+  0%,
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes splash-bill-drop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -34px) rotate(-9deg) scale(0.95);
+  }
+  30% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+    transform: translate(-50%, 18px) rotate(2deg) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 48px) rotate(0deg) scale(0.45);
+  }
+}
+
+@keyframes splash-wallet-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.75);
+  }
+  28% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.06);
+  }
+  45%,
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes splash-coin-float {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.5);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scale(1.15);
+  }
+}
+
+@keyframes splash-check-pop {
+  0%,
+  42% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  72%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splash-amount-in {
+  0%,
+  38% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  58%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.splash-overlay {
+  animation: splash-overlay-fade 1s ease-in-out forwards;
+}
+
+.splash-bill {
+  animation: splash-bill-drop 1s cubic-bezier(0.22, 0.9, 0.3, 1) forwards;
+}
+
+.splash-wallet {
+  animation: splash-wallet-pop 1s cubic-bezier(0.22, 0.9, 0.3, 1) forwards;
+}
+
+.splash-coin {
+  animation: splash-coin-float 1s ease-out forwards;
+}
+
+.splash-coin:nth-of-type(1) {
+  animation-delay: 0.1s;
+}
+
+.splash-coin:nth-of-type(2) {
+  animation-delay: 0.24s;
+}
+
+.splash-coin:nth-of-type(3) {
+  animation-delay: 0.38s;
+}
+
+.splash-coin:nth-of-type(4) {
+  animation-delay: 0.52s;
+}
+
+.splash-check {
+  animation: splash-check-pop 1s cubic-bezier(0.22, 0.9, 0.3, 1) forwards;
+}
+
+.splash-amount {
+  animation: splash-amount-in 1s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-overlay,
+  .splash-bill,
+  .splash-wallet,
+  .splash-coin,
+  .splash-check,
+  .splash-amount {
+    animation: none;
+  }
+}
