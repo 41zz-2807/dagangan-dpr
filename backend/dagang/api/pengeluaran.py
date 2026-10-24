@@ -13,6 +13,7 @@ from sqlalchemy import func
 
 from dagang.extensions import db
 from dagang.models import Pengeluaran, PengeluaranKategori, User
+from dagang.services.telegram import send_message
 from dagang.utils.decorators import load_current_user, roles_required
 from dagang.utils.errors import ApiError
 
@@ -169,6 +170,17 @@ def create_pengeluaran():
     )
     db.session.add(p)
     db.session.commit()
+    try:
+        send_message(
+            f"💸 <b>Pengeluaran baru</b>\n"
+            f"Kategori: {kategori_nama or '-'}\n"
+            f"Nominal: {nominal}\n"
+            f"Metode: {metode_bayar}\n"
+            f"Keterangan: {keterangan or '-'}\n"
+            f"Oleh: {user.username}"
+        )
+    except Exception:
+        pass
     return jsonify({"pengeluaran": p.to_dict()}), 201
 
 

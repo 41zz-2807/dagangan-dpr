@@ -72,6 +72,7 @@ services:
       - ./data/uploads:/data/uploads
       - ./data/logs:/data/logs
       - ./data/backups:/data/backups
+      - ./.telegram-info:/app/.telegram-info:ro
     networks:
       - dagang-net
       - cloudflared

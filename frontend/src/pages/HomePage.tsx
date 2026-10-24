@@ -81,6 +81,20 @@ export default function HomePage() {
         ))}
       </div>
 
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <h2 className="mb-2 text-sm font-bold text-slate-900">Download Aplikasi Android</h2>
+        <p className="mb-3 text-xs text-slate-500">
+          Versi 1.0.0 · Build 24 Okt 2026
+        </p>
+        <a
+          href="/apk/warung-dpr.apk"
+          download
+          className="inline-flex items-center rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition active:scale-[0.99]"
+        >
+          Download APK
+        </a>
+      </div>
+
       <Card>
         <p className="mb-2 text-sm font-bold text-slate-800">Status aplikasi</p>
         {health.isLoading ? (

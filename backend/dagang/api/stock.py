@@ -12,6 +12,7 @@ from dagang.models import Product, StockMovement, User
 from dagang.schemas import StockAdjustRequest
 from dagang.services.audit import record
 from dagang.services.stock import adjust_stock
+from dagang.services.telegram import send_message
 from dagang.utils.decorators import load_current_user, roles_required
 from dagang.utils.errors import ApiError
 from dagang.utils.validators import parse_body
@@ -135,6 +136,16 @@ def adjust():
         user=user,
         movement_type=movement_type,
     )
+    try:
+        send_message(
+            f"📦 <b>Adjust stok</b>\n"
+            f"Produk: {product.name}\n"
+            f"Mode: {data.mode} ({data.qty})\n"
+            f"Alasan: {data.reason}\n"
+            f"Oleh: {user.username}"
+        )
+    except Exception:
+        pass
     return jsonify(
         {
             "product": product.to_dict(),

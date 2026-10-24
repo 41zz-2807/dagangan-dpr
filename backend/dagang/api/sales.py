@@ -15,7 +15,8 @@ from dagang.extensions import db
 from dagang.models import Payment, Sale, SaleItem, User
 from dagang.schemas import SaleCreateRequest, SaleVoidRequest
 from dagang.services.receipt import build_receipt_pdf
-from dagang.services.sale import create_sale, void_sale
+from dagang.services.sale import create_sale
+from dagang.services.telegram import send_message
 from dagang.utils.decorators import load_current_user, roles_required
 from dagang.utils.errors import ApiError
 from dagang.utils.validators import parse_body
@@ -55,6 +56,16 @@ def create_sale_endpoint():
         note=data.note,
         user=user,
     )
+    try:
+        send_message(
+            f"🛒 <b>Penjualan baru</b>\n"
+            f"Invoice: {sale.invoice_no}\n"
+            f"Total: {sale.total}\n"
+            f"Kasir: {user.username}\n"
+            f"Metode: {', '.join(p.method for p in sale.payments)}"
+        )
+    except Exception:
+        pass
     return jsonify({"sale": sale.to_dict(detail=True)}), 201
 
 

@@ -5,7 +5,7 @@
 *.pem
 *.key
 .my-info
-
+.telegram-info
 # data (volume host) - jangan pernah di-commit
 data/
 !data/.gitkeep
