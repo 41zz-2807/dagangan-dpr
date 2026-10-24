@@ -10,6 +10,7 @@ import KasirPage from "./pages/KasirPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import OmsetPage from "./pages/OmsetPage";
+import LaporanHarianPage from "./pages/LaporanHarianPage";
 import ProdukPage from "./pages/ProdukPage";
 import PengeluaranPage from "./pages/PengeluaranPage";
 import ShiftPage from "./pages/ShiftPage";
@@ -100,6 +101,14 @@ export default function App() {
             element={
               <Shell>
                 <OmsetPage />
+              </Shell>
+            }
+          />
+          <Route
+            path="/laporan-harian"
+            element={
+              <Shell>
+                <LaporanHarianPage />
               </Shell>
             }
           />

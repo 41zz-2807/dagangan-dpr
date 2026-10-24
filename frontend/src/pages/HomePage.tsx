@@ -50,18 +50,20 @@ export default function HomePage() {
 
       <Link
         to="/omset"
-        className="block rounded-2xl bg-brand-600 p-5 text-white shadow-sm transition active:scale-[0.99]"
+        className="uiverse-card block shadow-sm transition active:scale-[0.99]"
       >
-        <p className="text-sm text-emerald-50">
-          {isOwner ? "Omset hari ini" : "Omset Anda hari ini"}
-        </p>
-        <p className="mt-1 text-3xl font-bold">
-          {summaryQuery.isLoading ? "..." : formatRupiah(summary?.omset ?? 0)}
-        </p>
-        <p className="mt-1 text-xs text-emerald-50">
-          {summary?.transaksi ?? 0} transaksi ·{" "}
-          {summary?.produk_terjual ?? 0} produk terjual
-        </p>
+        <div className="uiverse-card-inner text-center">
+          <p className="text-sm text-emerald-50">
+            {isOwner ? "Omset hari ini" : "Omset Anda hari ini"}
+          </p>
+          <p className="mt-1 text-3xl font-bold">
+            {summaryQuery.isLoading ? "..." : formatRupiah(summary?.omset ?? 0)}
+          </p>
+          <p className="mt-1 text-xs text-emerald-50">
+            {summary?.transaksi ?? 0} transaksi ·{" "}
+            {summary?.produk_terjual ?? 0} produk terjual
+          </p>
+        </div>
       </Link>
 
       <div className="grid grid-cols-2 gap-3">
@@ -69,10 +71,12 @@ export default function HomePage() {
           <Link
             key={item.to}
             to={item.to}
-            className="flex min-h-[88px] flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition active:scale-[0.99]"
+            className="uiverse-card block transition active:scale-[0.99]"
           >
-            <span className="text-sm font-bold text-slate-900">{item.label}</span>
-            <span className="mt-0.5 text-xs text-slate-500">{item.desc}</span>
+            <div className="uiverse-card-inner text-center">
+              <span className="text-sm font-bold text-white">{item.label}</span>
+              <span className="mt-0.5 block text-xs text-slate-300">{item.desc}</span>
+            </div>
           </Link>
         ))}
       </div>

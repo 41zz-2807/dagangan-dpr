@@ -169,3 +169,120 @@
     animation: none;
   }
 }
+
+/* Omset card (Uiverse) */
+.omset-card {
+  width: 100%;
+  height: 254px;
+  background: #07182E;
+  position: relative;
+  display: flex;
+  place-content: center;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.omset-card h2 {
+  z-index: 1;
+  color: white;
+  font-size: 2em;
+}
+
+.omset-card::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+  height: 130%;
+  animation: rotBGimg 3s linear infinite;
+  transition: all 0.2s linear;
+}
+
+@keyframes rotBGimg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.omset-card::after {
+  content: '';
+  position: absolute;
+  background: #07182E;
+  inset: 5px;
+  border-radius: 15px;
+}
+
+/* Shortcut cards (Uiverse shakil) */
+.shortcut-card {
+  width: 100%;
+  height: 120px;
+  background: #07182e;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.shortcut-card p {
+  z-index: 2;
+  color: white;
+  font-size: 1.25em;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+.shortcut-card::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    #00c3ff 0%,
+    #7b2ff7 25%,
+    #00f2c3 55%,
+    #ffe600 85%,
+    #00c3ff 100%
+  );
+  animation: rotateAnim2 5s linear infinite;
+  filter: blur(10px) brightness(1.2);
+  z-index: 0;
+}
+
+.shortcut-card::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: #07182e;
+  border-radius: 16px;
+  z-index: 1;
+  box-shadow: inset 0 0 20px rgba(183, 255, 0.1);
+}
+
+@keyframes rotateAnim2 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Uiverse Samucraft346 card */
+.uiverse-card {
+  width: 100%;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  border-radius: 20px;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.uiverse-card-inner {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  transition: all 0.2s;
+  padding: 1rem;
+  color: white;
+}

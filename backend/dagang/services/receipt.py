@@ -165,7 +165,10 @@ def render_public_receipt_page(sale, for_pdf=False):
     parts.append('<title>Struk ' + escape(sale.invoice_no) + '</title>')
     parts.append('<style>')
     parts.append('  * { box-sizing: border-box; }')
-    parts.append('  @page { size: 80mm 120mm; margin: 0; }')
+    # Tinggi halaman dinamis agar semua item muat di satu halaman (tanpa potong),
+    # lebar tetap 80mm agar canvas print pas (tidak lebar).
+    page_height = max(120, 100 + len(getattr(sale, "items", []) or []) * 12)
+    parts.append('  @page { size: 80mm ' + str(page_height) + 'mm; margin: 0; }')
     parts.append('  html, body {')
     parts.append('    margin: 0;')
     parts.append('    padding: 0;')

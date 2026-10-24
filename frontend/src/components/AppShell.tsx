@@ -35,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: "/stok", label: "Stok", icon: <IconBox className="h-6 w-6" /> },
   { to: "/stok/opname", label: "Stok Opname", icon: <IconClipboard className="h-6 w-6" />, ownerOnly: true },
   { to: "/omset", label: "Omset", icon: <IconChart className="h-6 w-6" />, ownerOnly: true },
+  { to: "/laporan-harian", label: "Laporan Harian", icon: <IconChart className="h-6 w-6" />, ownerOnly: true },
   { to: "/pengeluaran", label: "Pengeluaran", icon: <IconMoney className="h-6 w-6" /> },
   { to: "/produk", label: "Produk", icon: <IconTag className="h-6 w-6" />, ownerOnly: true },
   {
